@@ -16,7 +16,9 @@ Sean Chen
 -------------------------------------------------------------------------
 
 Instruction:
+
  a.In makefile, "LEDAROOT" should modify into your own LEDA version and path.
+ 
  b.main function lacated in file "main_area.cc", system will run differently due to different number of parameters.
   
  
