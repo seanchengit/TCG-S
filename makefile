@@ -11,11 +11,11 @@ STLLEDA=-DLEDA_PREFIX
 FASTLEDA=-DLEDA_STL_ITERATORS
 CXX=g++
 #CXXFLAGS= -c -g   -O0 $(STLLEDA) $(FASTLEDA) -DTIMESTAMP=$(TIMESTAMP) -I$(LEDAROOT)/incl 
-CXXFLAGS= -c -g -O0   -DTIMESTAMP=$(TIMESTAMP) -I$(LEDAROOT)/incl -L
+CXXFLAGS= -DLEDA_MULTI_THREAD -pthread -Wall --warn-error -Wno-error -c -g -O0 -fno-strict-aliasing  -DTIMESTAMP=$(TIMESTAMP) -I$(LEDAROOT)/incl -L
 LDFLAGS= 
 ###########################################################################
 LIBS = -lleda -lX11 -lm -L$(LEDAROOT)
-OBJS = main_area.o hv_matrix.o fplan.o clo_red.o save_rect_line.o show_graph.o 
+OBJS = main_area.o hv_matrix.o fplan.o clo_red.o RBT.o MyGraph.o save_rect_line.o show_graph.o
 #show_graph.o
 SRCS = ${OBJS:%.o=%.cc}
 EXE  = area
@@ -23,7 +23,7 @@ EXE  = area
 $(EXE): $(OBJS)
 	  $(CXX) $(LDFLAGS) -o  $(EXE) $(OBJS) $(LIBS)  
 
-$(OBJS): hv_matrix.h fplan.h clo_red.h save_rect_line.h show_graph.h
+$(OBJS): hv_matrix.h fplan.h clo_red.h save_rect_line.h show_graph.h MyGraph.h
 #show_graph.h
 clean: 
 	rm -f $(OBJS); rm $(EXE); 

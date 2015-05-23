@@ -68,6 +68,7 @@ void FloorPlan::read(char *file){
     modules_info[i].width=modules[i].width;
     modules_info[i].height=modules[i].height;
     modules_info[i].degree=0;
+    modules_info[i].name = i+97;
     cout<<i <<" "<<modules_info[i].width<<" "<<modules_info[i].height<<endl;
   }
 

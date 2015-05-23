@@ -54,14 +54,15 @@ struct Module{
 };
 typedef vector<Module> Modules;
 
-struct Module_Info{
+typedef struct Module_Info{
+  unsigned char name;
   int x,y;
   int rx,ry;
   int width, height;
   //'0' denote 0 degree, '1' denote 90 degree
   //'2' denote 180 degree, '3' denote 270 degree 
   int degree;   
-};
+}module;
 
 typedef vector<Module_Info> Modules_Info;
 
@@ -89,7 +90,14 @@ class FloorPlan{
     Module  root_module;
     Modules_Info modules_info;    
     Nets network;
-    
+
+    /*
+    added by XUAN CHEN 26.3.2015
+    */
+
+    void setWidth(int x){Width = x;}
+    void setHeight(int x){Height = x;}
+    void setArea(){Area = Width*Height;}
   protected:
     map<string,int> net_table;
 

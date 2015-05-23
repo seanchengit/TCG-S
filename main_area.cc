@@ -17,6 +17,8 @@
 #include <string>
 #include "clo_red.h"
 #include "save_rect_line.h"
+#include "RBT.cc"
+#include "MyGraph.h"
 /*
 #include <iostream>             
 #include <cstring>
@@ -75,6 +77,93 @@ double std_var(vector<double> &chain){
     conv_rate: converge condition which is maximal fail rate (0~1)
    k: factor of the number of permutation in one temperature
 */
+
+int max_rx(Clo_Red_Graph &fp)
+{
+    int i,temp=0;
+    for(i=0;i<fp.modules_info.size();i++)
+    {
+        temp = temp < (fp.modules_info[i].rx)?fp.modules_info[i].rx:temp;
+    }
+    return temp;
+}
+
+int max_ry(Clo_Red_Graph &fp)
+{
+    int i,temp=0;
+    for(i=0;i<fp.modules_info.size();i++)
+    {
+        temp = temp<(fp.modules_info[i].ry)?fp.modules_info[i].ry:temp;
+    }
+    return temp;
+}
+
+void RB_Floorplanning_merge(Clo_Red_Graph &fp1, Clo_Red_Graph &fp2,  bst &Tv1, matrixgraph *Ch1, matrixgraph *Ch2, float P, float r, float Term_T, float conv_rate, int k)
+{
+    int i,len;
+    setRelation(Ch1, 0, 5); setRelation(Ch1, 1, 6);
+    setRelation(Ch1, 1, 3); setRelation(Ch1, 1, 4);
+    setRelation(Ch1, 1, 5); setRelation(Ch1, 2, 3);
+    setRelation(Ch1, 2, 4); setRelation(Ch1, 2, 6);
+    setRelation(Ch1, 2, 5); setRelation(Ch1, 3, 5);
+    setRelation(Ch1, 4, 5);
+    Tv1.insertHead('s', 0, 0, Ch1);
+    i = 0;
+    while(i < fp1.modules_info.size())
+    {
+        Tv1.insert_(&(fp1.modules_info[i]), Ch1);
+        i++;
+    }
+/*
+    fp1.setWidth(max_rx(fp1));
+    fp1.setHeight(max_ry(fp1));
+    fp1.setArea();
+*/
+   
+    setRelation(Ch2, 0, 5); setRelation(Ch2, 1, 6);
+    setRelation(Ch2, 1, 3); setRelation(Ch2, 1, 4);
+    setRelation(Ch2, 1, 5); setRelation(Ch2, 2, 3);
+    setRelation(Ch2, 2, 4); setRelation(Ch2, 2, 6);
+    setRelation(Ch2, 2, 5); setRelation(Ch2, 3, 5);
+    setRelation(Ch2, 4, 5);
+ 
+    addModule(Ch1, Ch2);
+    i = 0;
+    len = fp1.modules_info.size();
+    while(i < fp2.modules_info.size())
+    {
+        fp2.modules_info[i].name+=len;
+        fp1.modules_info.push_back(fp2.modules_info[i]);
+        Tv1.insert_(&(fp1.modules_info.back()), Ch1);
+        i++;
+    }
+    
+    fp1.setWidth(max_rx(fp1));
+    fp1.setHeight(max_ry(fp1));
+    fp1.setArea();
+
+}
+
+void RB_Floorplanning(Clo_Red_Graph &fp, bst &Tv, matrixgraph *Ch,  float P, float r, float Term_T, float conv_rate, int k)
+{
+    int i=0;
+    setRelation(Ch, 0, 5); setRelation(Ch, 1, 6);
+    setRelation(Ch, 1, 3); setRelation(Ch, 1, 4);
+    setRelation(Ch, 1, 5); setRelation(Ch, 2, 3);
+    setRelation(Ch, 2, 4); setRelation(Ch, 2, 6);
+    setRelation(Ch, 2, 5); setRelation(Ch, 3, 5);
+    setRelation(Ch, 4, 5);
+    Tv.insertHead('s', 0, 0, Ch);
+    while(i<fp.modules_info.size())
+    {
+        Tv.insert_(&(fp.modules_info[i]), Ch);
+        i++;
+    }
+    fp.setWidth(max_rx(fp));
+    fp.setHeight(max_ry(fp));
+    fp.setArea();
+}
+
 void SA_Floorplanning(Clo_Red_Graph &fp,float P,float r,float Term_T,
 	   	      float conv_rate,int k)
 {
@@ -260,6 +349,8 @@ int main(int argc,char *argv[])
    }else{
      int argi=1;
      if(argi < argc) strcpy(filename,argv[argi++]);
+     if(argc > 2 ) strcpy(filename1,argv[argi]);
+    /*
      if(argi < argc) times=atoi(argv[argi++]);
      if(argi < argc) hill_climb_stage=atoi(argv[argi++]);
      if(argi < argc) avg_ratio=atof(argv[argi++]);
@@ -268,7 +359,9 @@ int main(int argc,char *argv[])
      if(argi < argc) init_temp=atof(argv[argi++]);
      if(argi < argc) term_temp=atof(argv[argi++]);
      if(argi < argc) temp_scale=atof(argv[argi++]);
+    
      if(argi < argc) cvg_r=atof(argv[argi++]);
+  */
    }
    float area, wire;
    init_time_s=seconds();
@@ -283,11 +376,32 @@ int main(int argc,char *argv[])
    fp.init_sqr();
    //fp.Test(); 
    fp.show_modules();
-   SA_Floorplanning(fp,init_temp,temp_scale, term_temp,cvg_r,times);
+  // SA_Floorplanning(fp,init_temp,temp_scale, term_temp,cvg_r,times);
+    
+   
+   matrixgraph Ch1;
+   initGraph(&Ch1, fp.modules_info.size());
+   bst Tv;
+
+   if(argc > 2)
+   {
+       Clo_Red_Graph fp2;
+       fp2.read(filename1);
+       fp2.init_sqr();
+       fp2.show_modules();
+       matrixgraph Ch2;
+       initGraph(&Ch2, fp2.modules_info.size());
+      // bst Tv2;
+       RB_Floorplanning_merge(fp,fp2,Tv,&Ch1,&Ch2, init_temp, temp_scale, term_temp, cvg_r, times);
+   }
+   else{
+   RB_Floorplanning(fp, Tv, &Ch1, init_temp, temp_scale, term_temp, cvg_r, times);   
+   }
    area=fp.getArea();
-   cout<<"Best Area="<< area<<endl;
-     
+  // cout<<"Best Area="<< area<<endl;
+   cout<<"totall Area =" <<area<<endl;  
   // Clo_Red_Graph& myfp = fp;
+   Tv.inorder();
    show_graph(fp, fp.getWidth(), fp.getHeight(), fp.modules_info);
    time_s = seconds()-init_time_s;
    strcat(filename,"_area");

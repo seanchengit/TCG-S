@@ -50,61 +50,18 @@ void  show_graph(Clo_Red_Graph& fp, float width,
             if(max_y<double(y2/s))
               max_y=y2/s;
             
-            j=i+2;
-            
-            char p[10];
+           
             char p1[10];
-            int l=0;
-            int k;
-            do{
-                k=j%10;
             
-                switch (k){
-                  case 0:
-                    p[l++]='0'; 
-                    break; 
-                  case 1:
-                    p[l++]='1';     
-                    break; 
-                  case 2:
-                    p[l++]='2';
-                    break;
-                  case 3:
-                    p[l++]='3'; 
-                    break;  
-                  case 4:
-                    p[l++]='4';
-                    break; 
-                  case 5:
-                    p[l++]='5'; 
-                    break; 
-                  case 6:
-                    p[l++]='6'; 
-                    break; 
-                  case 7:
-                    p[l++]='7'; 
-                    break; 
-                 case 8:
-                    p[l++]='8'; 
-                   break; 
-                 case 9:
-                    p[l++]='9'; 
-                   break;            
-                }
-             }while(j=j/10);//do
+           
              
-             k=l-1;
-             //cout<<"l="<<l<<endl;
-             for(j=0; j < l; j++)
-             {
-             	p1[j]=p[k--];
-                //cout<<p1[j];
-             }
-             //cout<<endl;
-             //leda_string st(p1);  
-             W.text_box(x1/s, x2/s, y2/s, p1); 	
+           //  W.text_box(x1/s, x2/s, y2/s, p1);
+             p1[0]=p1[1]=p1[2]=p1[3]=p1[4]=' ';
+             p1[5]=i+97;
+            W.text_box(x1/s+(x2/s-x1/s)/2, x2/s, y2/s-(y2/s-y1/s)/2, p1);
+            
          }//for
-
+/*
   for(i=0; i < fp.network.size(); i++){
      Pin& p0=*fp.network[i][0];
      int x=p0.ax;
@@ -121,7 +78,7 @@ void  show_graph(Clo_Red_Graph& fp, float width,
         }
       }
   }
-
+*/
 
          W.set_line_width(5);
          W.draw_segment(0.0, max_y, max_x, max_y);
