@@ -16,7 +16,8 @@ Sean Chen
 -------------------------------------------------------------------------
 
 Instruction:
-  main function lacated in file "main_area.cc", system will run differently due to different number of parameters.
+ a.In makefile, "LEDAROOT" should modify into your own LEDA version and path.
+ b.main function lacated in file "main_area.cc", system will run differently due to different number of parameters.
   
  
 makefile is already existed, after type "make", running program as:
