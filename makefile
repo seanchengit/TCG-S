@@ -9,7 +9,7 @@ LEDAROOT=/home/jessie/CMC/LEDA-6.4-fedora-core-8-64-g++-4.1.2-mt
 TIMESTAMP=\"`date +%m/%d/%y_%H:%M:%S`\" 
 STLLEDA=-DLEDA_PREFIX
 FASTLEDA=-DLEDA_STL_ITERATORS
-CXX=g++ 
+CXX=g++
 #CXXFLAGS= -c -g   -O0 $(STLLEDA) $(FASTLEDA) -DTIMESTAMP=$(TIMESTAMP) -I$(LEDAROOT)/incl 
 CXXFLAGS= -DLEDA_MULTI_THREAD -pthread -Wall --warn-error -Wno-error -c -g -O0 -fno-strict-aliasing  -DTIMESTAMP=$(TIMESTAMP) -I$(LEDAROOT)/incl -L
 LDFLAGS= 

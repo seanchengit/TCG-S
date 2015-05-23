@@ -835,7 +835,7 @@ public:
            	insert_rb_(root, m, Ch);
            }
        }
-
+/*
 void moduleMerge(vector<module> *Gamma, matrixgraph *ch1, matrixgraph *ch2)
 {
 	addModule(ch1, ch2);
@@ -858,7 +858,7 @@ void moduleMerge(queue<module> *gamma, matrixgraph *ch1, matrixgraph *ch2)
 		gamma->pop();
 	}
 }
-
+*/
 
     void traverseTree(char data, int x_, int y_, stack<Node> *node)
     {

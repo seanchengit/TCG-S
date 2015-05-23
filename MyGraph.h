@@ -44,7 +44,7 @@ void initiateMod(module *m, char value,int w, int h, vector<module> *M);
 
 void addModule(matrixgraph *C);
 
-void addModule(matrixgraph *C1, matrixgraph *C2);
+void addModule(matrixgraph *C1, matrixgraph *C2, int type);
 
 void setRelation(matrixgraph *C, int i, int j);
 

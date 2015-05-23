@@ -98,9 +98,9 @@ int max_ry(Clo_Red_Graph &fp)
     return temp;
 }
 
-void RB_Floorplanning_merge(Clo_Red_Graph &fp1, Clo_Red_Graph &fp2,  bst &Tv1, matrixgraph *Ch1, matrixgraph *Ch2, float P, float r, float Term_T, float conv_rate, int k)
+void RB_Floorplanning_merge(Clo_Red_Graph &fp1, Clo_Red_Graph &fp2,  bst &Tv1, matrixgraph *Ch1, matrixgraph *Ch2, int type, float P, float r, float Term_T, float conv_rate, int k)
 {
-    int i,len;
+    int i,len1, len2;
     setRelation(Ch1, 0, 5); setRelation(Ch1, 1, 6);
     setRelation(Ch1, 1, 3); setRelation(Ch1, 1, 4);
     setRelation(Ch1, 1, 5); setRelation(Ch1, 2, 3);
@@ -127,12 +127,13 @@ void RB_Floorplanning_merge(Clo_Red_Graph &fp1, Clo_Red_Graph &fp2,  bst &Tv1, m
     setRelation(Ch2, 2, 5); setRelation(Ch2, 3, 5);
     setRelation(Ch2, 4, 5);
  
-    addModule(Ch1, Ch2);
+    addModule(Ch1, Ch2, type);
     i = 0;
-    len = fp1.modules_info.size();
-    while(i < fp2.modules_info.size())
+    len1 = fp1.modules_info.size();
+    len2 = fp2.modules_info.size();
+    while(i < len2)
     {
-        fp2.modules_info[i].name+=len;
+        fp2.modules_info[i].name+=len1;
         fp1.modules_info.push_back(fp2.modules_info[i]);
         Tv1.insert_(&(fp1.modules_info.back()), Ch1);
         i++;
@@ -332,6 +333,7 @@ int main(int argc,char *argv[])
 {
   // cout<<"chen"<<endl;  
    cout << "Floorplanning Version:" << TIMESTAMP << endl;
+   int mergetype = 0;
    int times=10;
    char filename[80];
    char filename1[80];
@@ -349,7 +351,8 @@ int main(int argc,char *argv[])
    }else{
      int argi=1;
      if(argi < argc) strcpy(filename,argv[argi++]);
-     if(argc > 2 ) strcpy(filename1,argv[argi]);
+     if(argi < argc ) strcpy(filename1,argv[argi++]);
+     if(argi < argc ) mergetype = atoi(argv[argi++]);
     /*
      if(argi < argc) times=atoi(argv[argi++]);
      if(argi < argc) hill_climb_stage=atoi(argv[argi++]);
@@ -392,7 +395,7 @@ int main(int argc,char *argv[])
        matrixgraph Ch2;
        initGraph(&Ch2, fp2.modules_info.size());
       // bst Tv2;
-       RB_Floorplanning_merge(fp,fp2,Tv,&Ch1,&Ch2, init_temp, temp_scale, term_temp, cvg_r, times);
+       RB_Floorplanning_merge(fp,fp2,Tv,&Ch1,&Ch2, mergetype, init_temp, temp_scale, term_temp, cvg_r, times);
    }
    else{
    RB_Floorplanning(fp, Tv, &Ch1, init_temp, temp_scale, term_temp, cvg_r, times);   

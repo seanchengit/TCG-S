@@ -76,7 +76,7 @@ void addModule(matrixgraph *C)//no relation
 	}
 }
 
-void addModule(matrixgraph *C1, matrixgraph *C2)//set relation
+void addModule(matrixgraph *C1, matrixgraph *C2, int type)//set relation
 {
 	int i,j,m1,m2;
 	m1 = C1->numOfModules;
@@ -86,7 +86,7 @@ void addModule(matrixgraph *C1, matrixgraph *C2)//set relation
 	{
 		for(j=0;j<m2;j++)
 		{
-			C1->edge[i][m1+j]=1;
+			C1->edge[i][m1+j]=type?0:1;//configure relation based on type,0 is left-right, 1is bottom-top
 			C1->edge[m1+j][i]=0;
 		}
 	}
@@ -96,7 +96,7 @@ void addModule(matrixgraph *C1, matrixgraph *C2)//set relation
 		{
             
             C1->edge[i+m1][j+m1] = C2->edge[i][j];
-		}
+		}y
 	}
 }
 
