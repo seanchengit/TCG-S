@@ -96,7 +96,7 @@ void addModule(matrixgraph *C1, matrixgraph *C2, int type)//set relation
 		{
             
             C1->edge[i+m1][j+m1] = C2->edge[i][j];
-		}y
+		}
 	}
 }
 

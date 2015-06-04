@@ -503,7 +503,7 @@ void insert_rb_(Node *p, Module_Info *m, matrixgraph *Ch){
 	{
 		if(p->value == 's')//first
 		{
-			m->x = p->X + p->width;//update every time
+			m->x = (m->x)< (p->X + p->width)?(p->X + p->width):(m->x);//update every time
 			if(p->rightTree != NIL)	insert_rb_(p->rightTree, m, Ch);
 			else{
 				Node *tmp = new Node();
@@ -532,7 +532,7 @@ void insert_rb_(Node *p, Module_Info *m, matrixgraph *Ch){
 		{
 			if(getRelation(Ch, getNum(p->value), getNum(m->name)))
 			{
-				m->x = p->X + p->width;//ccc
+				m->x =(m->x)< (p->X + p->width)?(p->X + p->width):(m->x);//ccc
 				if(p->rightTree != NIL)  insert_rb_(p->rightTree, m, Ch);
 				else
 				{
@@ -540,6 +540,7 @@ void insert_rb_(Node *p, Module_Info *m, matrixgraph *Ch){
 					tmp->value = m->name;
 					tmp->width = m->width; tmp->height = m->height;
 					tmp->X = m->x; tmp->Y = m->y;
+                    
 					m->rx = tmp->X_ = m->x + m->width;
 					m->ry = tmp->Y_ = m->y + m->height;
 					tmp->leftTree = tmp->rightTree = NIL;
@@ -559,7 +560,7 @@ void insert_rb_(Node *p, Module_Info *m, matrixgraph *Ch){
 			}
 			else
 			{
-				m->y=p->Y + p->height;
+				m->y=(m->y)<(p->Y + p->height)?(p->Y + p->height):(m->y);
 				if(p->leftTree != NIL)  insert_rb_(p->leftTree, m, Ch);
 				else
 				{
@@ -591,7 +592,7 @@ void insert_rb_(Node *p, Module_Info *m, matrixgraph *Ch){
 	{
 		if(p->value == 't')//first
 		{
-			m->y = p->Y + p->height;//update every time
+			m->y = (m->y)<(p->Y + p->height)?(p->Y + p->height):(m->y);//update every time
 			if(p->rightTree != NIL)	insert_rb_(p->rightTree, m, Ch);
 			else{
 				Node *tmp = new Node();
@@ -619,7 +620,7 @@ void insert_rb_(Node *p, Module_Info *m, matrixgraph *Ch){
 		{
 			if(getRelation(Ch, getNum(p->value), getNum(m->name)))
 			{
-				m->x=p->X+p->width;
+				m->x=(m->x)<(p->X+p->width)?(p->X+p->width):(m->x);
 				if(p->leftTree != NIL)  insert_rb_(p->leftTree, m, Ch);
 				else
 				{
@@ -646,7 +647,7 @@ void insert_rb_(Node *p, Module_Info *m, matrixgraph *Ch){
 			}
 			else
 			{
-				m->y=p->Y + p->height;
+				m->y=(m->y)<(p->Y + p->height)?(p->Y + p->height):(m->y);
 				if(p->rightTree != NIL)  insert_rb_(p->rightTree, m, Ch);
 				else
 				{

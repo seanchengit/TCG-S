@@ -145,7 +145,7 @@ void RB_Floorplanning_merge(Clo_Red_Graph &fp1, Clo_Red_Graph &fp2,  bst &Tv1, m
 
 }
 
-void RB_Floorplanning(Clo_Red_Graph &fp, bst &Tv, matrixgraph *Ch,  float P, float r, float Term_T, float conv_rate, int k)
+void RB_Floorplanning(Clo_Red_Graph &fp, bst &Ts, bst &Tv, matrixgraph *Ch,  float P, float r, float Term_T, float conv_rate, int k)
 {
     int i=0;
     setRelation(Ch, 0, 5); setRelation(Ch, 1, 6);
@@ -154,10 +154,13 @@ void RB_Floorplanning(Clo_Red_Graph &fp, bst &Tv, matrixgraph *Ch,  float P, flo
     setRelation(Ch, 2, 4); setRelation(Ch, 2, 6);
     setRelation(Ch, 2, 5); setRelation(Ch, 3, 5);
     setRelation(Ch, 4, 5);
-    Tv.insertHead('s', 0, 0, Ch);
+    Ts.insertHead('s', 0, 0, Ch);
+   // Tv.insertHead('t', 0, 0, Ch);
     while(i<fp.modules_info.size())
     {
         Tv.insert_(&(fp.modules_info[i]), Ch);
+        Ts.insert_(&(fp.modules_info[i]), Ch);
+       // Tv.insert_(&(fp.modules_info[i]), Ch);
         i++;
     }
     fp.setWidth(max_rx(fp));
@@ -376,7 +379,7 @@ int main(int argc,char *argv[])
    //srand((unsigned) time(&t)); 
    //fp.show_modules(); 
    
-   fp.init_sqr();
+  // fp.init_sqr();
    //fp.Test(); 
    fp.show_modules();
   // SA_Floorplanning(fp,init_temp,temp_scale, term_temp,cvg_r,times);
@@ -384,13 +387,13 @@ int main(int argc,char *argv[])
    
    matrixgraph Ch1;
    initGraph(&Ch1, fp.modules_info.size());
-   bst Tv;
+   bst Ts, Tv;
 
    if(argc > 2)
    {
        Clo_Red_Graph fp2;
        fp2.read(filename1);
-       fp2.init_sqr();
+    //   fp2.init_sqr();
        fp2.show_modules();
        matrixgraph Ch2;
        initGraph(&Ch2, fp2.modules_info.size());
@@ -398,7 +401,7 @@ int main(int argc,char *argv[])
        RB_Floorplanning_merge(fp,fp2,Tv,&Ch1,&Ch2, mergetype, init_temp, temp_scale, term_temp, cvg_r, times);
    }
    else{
-   RB_Floorplanning(fp, Tv, &Ch1, init_temp, temp_scale, term_temp, cvg_r, times);   
+   RB_Floorplanning(fp, Ts, Tv, &Ch1, init_temp, temp_scale, term_temp, cvg_r, times);   
    }
    area=fp.getArea();
   // cout<<"Best Area="<< area<<endl;
