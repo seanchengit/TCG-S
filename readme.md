@@ -1,6 +1,6 @@
 ---------------------------------------------------------
 
-		      Floor plan Merge(based on RBT)
+		      Floor plan Merge
 ---------------------------------------------------------
 
 The code is used to show modules packing and merge two sets of packed modules, both based on RBT(Red-Black Tree).
@@ -8,7 +8,7 @@ Original algorithm of Floor-planning is copied from Jai_Ming Lin(gis87808@cis.nc
 ------------------------------------------------------------------------
 ------------------------------------------------------------------------
 
-Current modules packing and merge are
+Current modules packing and merge(based on RBT) are
 Designed by
 Sean Chen 
 
