@@ -1,8 +1,3 @@
-#Project: Clo_Red_Graph_Based Floorplanning
-#Advisor: Yao-Wen Chang  <ywchang@cis.nctu.edu.tw>
-#Author:  Jai_Ming Lin	 <gis87808@cis.nctu.edu.tw>
-#Date:    7/20/2000 
-
 .SUFFIXES: .cc 
 SHELL=/bin/sh
 LEDAROOT=/home/jessie/CMC/LEDA-6.4-fedora-core-8-64-g++-4.1.2-mt
